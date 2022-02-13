@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "jsx": "react-native",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
