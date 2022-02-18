@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@navigators/*": ["navigators/*"],
+      "@generated": ["generated/graphql.d.ts"],
+      "@hooks/*": ["hooks/*"],
+      "@screens/*": ["screens/*"],
+      "@utilities/*": ["utilities/*"],
+      "@styles/*": ["styles/*"],
+      "apollo": ["apollo.ts"]
+    }
+  }
+}

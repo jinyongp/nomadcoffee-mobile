@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "jsx": "react-native",
-    "module": "CommonJS",
-    "esModuleInterop": true,
+    "isolatedModules": true,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["metro.config.js", "babel.config.js"],
+  "extends": "expo/tsconfig.base"
 }
