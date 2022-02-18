@@ -38,7 +38,7 @@ export default function AuthNavigator() {
   return (
     <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Welcome" component={Welcome} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Group screenOptions={{ animation: 'fade_from_bottom' }}>
         <Stack.Screen
           name="LogIn"
           component={LoginScreen}

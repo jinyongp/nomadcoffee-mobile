@@ -1,12 +1,9 @@
 import { ReactNode } from 'react';
 import { Keyboard, Platform } from 'react-native';
-import styled from 'styled-components/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import styled, { useTheme } from 'styled-components/native';
 
 const DismissKeyboardContainer = styled.TouchableWithoutFeedback`
-  flex: 1;
-`;
-
-const KeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
 `;
 
@@ -15,9 +12,18 @@ type DismissKeyboardProps = {
 };
 
 export default function DismissKeyboard({ children }: DismissKeyboardProps) {
+  const theme = useTheme();
   return (
     <DismissKeyboardContainer onPress={() => Keyboard.dismiss()} disabled={Platform.OS === 'web'}>
-      {children}
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: theme.backgroundColor }}
+        contentContainerStyle={{ flex: 1 }}
+        extraHeight={100}
+        scrollEnabled={false}
+        enableAutomaticScroll={true}
+      >
+        {children}
+      </KeyboardAwareScrollView>
     </DismissKeyboardContainer>
   );
 }
