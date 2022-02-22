@@ -1,11 +1,17 @@
 {
   "expo": {
-    "name": "nomadcoffee-mobile",
-    "slug": "nomadcoffee-mobile",
+    "name": "NomadCoffee",
+    "slug": "nomadcoffee",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "icon": "./src/assets/icons/nomadcoffee.png",
+    "ios": {
+      "bundleIdentifier": "dev.jinyongp.nomadcoffee",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "dev.jinyongp.nomadcoffee",
+      "versionCode": 1
+    }
   },
-  "name": "nomadcoffee-mobile"
+  "name": "nomadcoffee"
 }

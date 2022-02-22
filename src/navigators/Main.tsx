@@ -7,6 +7,7 @@ import {
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from 'styled-components/native';
+import Brand from '../components/shared/Brand';
 import HomeScreen from '../screens/Home';
 import ProfileScreen from '../screens/Profile';
 import SearchScreen from '../screens/Search';
@@ -46,10 +47,11 @@ export default function MainNavigator() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: 'black',
         tabBarIconStyle: { marginTop: 5 },
         tabBarLabelStyle: { marginBottom: 5 },
+        headerStyle: { backgroundColor: theme.backgroundColor },
+        headerTitle: () => <Brand size={25} style={{ letterSpacing: 0.2 }} />,
       }}
     >
       <Tab.Screen

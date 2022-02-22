@@ -1,5 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { useTheme } from 'styled-components/native';
 import AuthNavigator, { AuthNavigatorParamList } from './Auth';
 import MainNavigator, { MainNavigatorParamList } from './Main';
 
@@ -11,6 +13,7 @@ export type RootNavigatorParamList = {
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
+  const theme = useTheme();
   return (
     <Stack.Navigator
       initialRouteName="Auth"

@@ -19,12 +19,14 @@ export type Scalars = {
 };
 
 export type CategoriesOutput = {
+  __typename?: 'CategoriesOutput';
   categories?: Maybe<Array<Maybe<Category>>>;
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type Category = {
+  __typename?: 'Category';
   id: Scalars['Int'];
   name: Scalars['String'];
   shops: Array<Maybe<CoffeeShop>>;
@@ -39,12 +41,14 @@ export type CategoryShopsArgs = {
 };
 
 export type CategoryOutput = {
+  __typename?: 'CategoryOutput';
   category?: Maybe<Category>;
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type CoffeeShop = {
+  __typename?: 'CoffeeShop';
   categories: Array<Maybe<Category>>;
   createdAt: Scalars['String'];
   id: Scalars['Int'];
@@ -70,12 +74,14 @@ export type CoffeeShopPhotosArgs = {
 };
 
 export type CoffeeShopOutput = {
+  __typename?: 'CoffeeShopOutput';
   coffeeShop?: Maybe<CoffeeShop>;
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type CoffeeShopPhoto = {
+  __typename?: 'CoffeeShopPhoto';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
   shop: CoffeeShop;
@@ -84,17 +90,20 @@ export type CoffeeShopPhoto = {
 };
 
 export type CoffeeShopsOutput = {
+  __typename?: 'CoffeeShopsOutput';
   coffeeShops?: Maybe<Array<Maybe<CoffeeShop>>>;
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type CommonOutput = {
+  __typename?: 'CommonOutput';
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type Mutation = {
+  __typename?: 'Mutation';
   createAccount: CommonOutput;
   createCoffeeShop: CommonOutput;
   deleteCoffeeShop: CommonOutput;
@@ -165,6 +174,7 @@ export type MutationUnfollowUserArgs = {
 };
 
 export type Query = {
+  __typename?: 'Query';
   me: UserOutput;
   searchUsers: UsersOutput;
   seeCategories: CategoriesOutput;
@@ -210,12 +220,14 @@ export type QuerySeeUserArgs = {
 };
 
 export type TokenOutput = {
+  __typename?: 'TokenOutput';
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   token?: Maybe<Scalars['String']>;
 };
 
 export type User = {
+  __typename?: 'User';
   avatarURL?: Maybe<Scalars['String']>;
   createdAt: Scalars['String'];
   email: Scalars['String'];
@@ -244,12 +256,14 @@ export type UserFollowingArgs = {
 };
 
 export type UserOutput = {
+  __typename?: 'UserOutput';
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   user?: Maybe<User>;
 };
 
 export type UsersOutput = {
+  __typename?: 'UsersOutput';
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   users: Array<Maybe<User>>;
@@ -263,7 +277,7 @@ export type CreateAccountMutationVariables = Exact<{
 }>;
 
 
-export type CreateAccountMutation = { createAccount: { ok: boolean, error?: string | null } };
+export type CreateAccountMutation = { __typename?: 'Mutation', createAccount: { __typename?: 'CommonOutput', ok: boolean, error?: string | null } };
 
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
@@ -271,7 +285,16 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { login: { ok: boolean, error?: string | null, token?: string | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'TokenOutput', ok: boolean, error?: string | null, token?: string | null } };
+
+export type SeeCoffeeShopsQueryVariables = Exact<{
+  items: Scalars['Int'];
+  lastId?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type SeeCoffeeShopsQuery = { __typename?: 'Query', seeCoffeeShops: { __typename?: 'CoffeeShopsOutput', ok: boolean, error?: string | null, coffeeShops?: Array<{ __typename?: 'CoffeeShop', id: number, name: string, photos: Array<{ __typename?: 'CoffeeShopPhoto', id: number, url: string } | null>, categories: Array<{ __typename?: 'Category', id: number, slug: string } | null> } | null> | null } };
 
 
 export const CreateAccountDocument = gql`
@@ -352,3 +375,53 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const SeeCoffeeShopsDocument = gql`
+    query SeeCoffeeShops($items: Int!, $lastId: Int, $userId: Int) {
+  seeCoffeeShops(items: $items, lastId: $lastId, userId: $userId) {
+    ok
+    error
+    coffeeShops {
+      id
+      name
+      photos(items: 10) {
+        id
+        url
+      }
+      categories(items: 5) {
+        id
+        slug
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSeeCoffeeShopsQuery__
+ *
+ * To run a query within a React component, call `useSeeCoffeeShopsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSeeCoffeeShopsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSeeCoffeeShopsQuery({
+ *   variables: {
+ *      items: // value for 'items'
+ *      lastId: // value for 'lastId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useSeeCoffeeShopsQuery(baseOptions: Apollo.QueryHookOptions<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>(SeeCoffeeShopsDocument, options);
+      }
+export function useSeeCoffeeShopsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>(SeeCoffeeShopsDocument, options);
+        }
+export type SeeCoffeeShopsQueryHookResult = ReturnType<typeof useSeeCoffeeShopsQuery>;
+export type SeeCoffeeShopsLazyQueryHookResult = ReturnType<typeof useSeeCoffeeShopsLazyQuery>;
+export type SeeCoffeeShopsQueryResult = Apollo.QueryResult<SeeCoffeeShopsQuery, SeeCoffeeShopsQueryVariables>;

@@ -1,4 +1,4 @@
-import { View, ViewProps } from 'react-native';
+import { ActivityIndicator, View, ViewProps } from 'react-native';
 import styled from 'styled-components/native';
 
 const Container = styled(View)`
@@ -8,8 +8,12 @@ const Container = styled(View)`
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
-type CenterLayoutProps = ViewProps;
+type CenterLayoutProps = ViewProps & {
+  loading?: boolean;
+};
 
-export default function CenterLayout(props: CenterLayoutProps) {
-  return <Container {...props} />;
+export default function CenterLayout({ loading = false, children, ...props }: CenterLayoutProps) {
+  return (
+    <Container {...props}>{loading ? <ActivityIndicator size="large" /> : children}</Container>
+  );
 }

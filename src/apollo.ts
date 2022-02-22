@@ -22,6 +22,8 @@ export async function logoutUser() {
 
 const httpLink = createUploadLink({
   uri: 'https://nomadcoffee-jinyongp.herokuapp.com/graphql',
+  // uri: 'http://localhost:4000/graphql',
+  // uri: 'https://nervous-bird-76.loca.lt/graphql',
 });
 
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
@@ -34,9 +36,27 @@ const authLink = setContext(async (_, { headers }) => {
   return { headers: { ...headers, authorization } };
 });
 
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        seeCoffeeShops: {
+          keyArgs: false,
+          merge(existing, incoming) {
+            return {
+              ...(existing || incoming),
+              coffeeShops: [...(existing?.coffeeShops || []), ...(incoming?.coffeeShops || [])],
+            };
+          },
+        },
+      },
+    },
+  },
+});
+
 const client = new ApolloClient({
   link: authLink.concat(onErrorLink).concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 export default client;

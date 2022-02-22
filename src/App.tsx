@@ -17,22 +17,29 @@ import {
   Poppins_900Black,
 } from '@expo-google-fonts/poppins';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+import { AsyncStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import React, { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
-import client from './apollo';
+import client, { cache, isAuthenticatedVar, tokenVar } from './apollo';
+import { TOKEN_KEY } from './constants/auth';
 import RootNavigator from './navigators/Root';
 import { getTheme } from './styles/theme';
 
 export default function App() {
+  const { getItem } = useAsyncStorage(TOKEN_KEY);
   const [loading, setLoading] = useState(true);
   const colorScheme = useColorScheme();
 
   async function preload() {
     try {
+      const token = await getItem();
+      tokenVar(token);
+      isAuthenticatedVar(!!token);
       await Promise.all([
         Font.loadAsync(Ionicons.font),
         Font.loadAsync({
@@ -53,6 +60,10 @@ export default function App() {
           Poppins_900Black,
         }),
       ]);
+      await persistCache({
+        cache,
+        storage: new AsyncStorageWrapper(AsyncStorage),
+      });
     } catch (error) {
       console.error(error);
     }
